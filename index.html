@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Propose Day Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      color: #333;
+      overflow: hidden;
+    }
+    .container {
+      margin-top: 12%;
+    }
+    .bigMessage {
+      font-size: 2.5em;
+      margin-top: 40px;
+      color: #d6336c;
+      font-weight: bold;
+    }
+    button {
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background: #d6336c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      position: relative;
+    }
+    button:hover {
+      background: #a61e4d;
+    }
+    #yesBtn.grow {
+      transform: scale(1.5);
+    }
+    #response {
+      margin-top: 30px;
+      font-size: 1.8em;
+      color: #d6336c;
+      opacity: 0;
+      transition: opacity 2s ease-in;
+    }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      animation: fall 3s linear forwards;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    @keyframes rise {
+      to {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="bigMessage">Archana, will you be mine forever?</div>
+    <div>
+      <button id="yesBtn" onclick="sayYes()">Yes 💍</button>
+      <button id="noBtn" onclick="sayNo()">No 😢</button>
+    </div>
+    <div id="response"></div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="A.mp3" preload="auto" loop></audio>
+
+  <script>
+    let noClickCount = 0;
+    const noBtn = document.getElementById("noBtn");
+
+    function sayYes() {
+      let yesBtn = document.getElementById("yesBtn");
+      yesBtn.classList.add("grow");
+      document.querySelector(".bigMessage").innerHTML = "Happy Propose Day ❤️";
+      const response = document.getElementById("response");
+      response.innerHTML = 
+        "“Your beauty is like a timeless poem, written in the language of stars and cherished in the silence of my heart.” ✨💞";
+      response.style.opacity = 1;
+
+      // Play music safely
+      const music = document.getElementById("bgMusic");
+      music.play().catch(error => {
+        console.log("Playback failed:", error);
+      });
+
+      launchConfetti();
+      launchHearts();
+    }
+
+    function sayNo() {
+      noClickCount++;
+      if (noClickCount === 2) {
+        noBtn.innerHTML = "But you’re too beautiful to say No 💖🌹";
+        noBtn.addEventListener("mouseover", () => {
+          noBtn.style.position = "absolute";
+          noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+          noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+        });
+      }
+    }
+
+    function launchConfetti() {
+      for (let i = 0; i < 50; i++) {
+        let confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "-10px";
+        confetti.style.backgroundColor = randomColor();
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+          confetti.remove();
+        }, 3000);
+      }
+    }
+
+    function launchHearts() {
+      for (let i = 0; i < 20; i++) {
+        let heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.style.position = "fixed";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.bottom = "0px";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        heart.style.animation = "rise 4s linear forwards";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 4000);
+      }
+    }
+
+    function randomColor() {
+      const colors = ["#ff4d6d", "#ffd700", "#00c2ff", "#8aff8a", "#ff9a00"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+</body>
+</html>
